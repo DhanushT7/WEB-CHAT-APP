@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 import "./sign-up.css";
 
 function Signup() {
   const navigate = useNavigate();
+  const toast = useToast();
 
   function goToLogin() {
     navigate("/login");
@@ -132,11 +134,20 @@ function Signup() {
     );
 
     const data = await res.json();
-    if (data.message === "email not exists") {
-      alert("verify your email");
+    if (data.message === "email not exists"){
+      //alert("verify your email");
+      toast({
+                title: `verify your email`,
+                status: "info",
+                isClosable: true,
+              })
       navigate("/verifyEmail", { state: { email, password } });
     } else {
-      alert(data.message);
+      toast({
+                title: `${data.message}`,
+                status: "error",
+                isClosable: true,
+              })
     }
 
     return;
@@ -233,6 +244,7 @@ function Signup() {
             disabled={isSignupDisabled}
             className="signup-btn"
             onClick={handleSignUp}
+            
           >
             Sign Up
           </button>

@@ -9,6 +9,7 @@ import sendEmail from "./mailManager/sendEmail.js"
 import SignupEmail from "./mailManager/signupEmail.js"
 import user from "./Models/userModel.js"
 import db from './config/db.js';
+import notFound from './middleware/errorMiddleware.js'
 
 const allowedOrigins = [
   "http://localhost:5173", 
@@ -41,6 +42,7 @@ app.get("/", (req, res)=>{
 
 app.use("/api/auth",authRoutes);
 app.use("/api/user",userRoutes);
+app.use(notFound)
 
 /*
 app.post("/api/signup/checkEmailExists", async (req, res)=>{
@@ -217,6 +219,6 @@ process.on('SIGINT', async () => {
   process.exit(0);
 });
 
-app.listen(5001,"0.0.0.0", ()=>{
-  console.log("server started: http://localhost:5001");
+app.listen(process.env.PORT,"0.0.0.0", ()=>{
+  console.log(`server started: http://localhost:${process.env.PORT}`);
 });

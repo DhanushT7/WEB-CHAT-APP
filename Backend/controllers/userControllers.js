@@ -61,4 +61,21 @@ export const renameGroup = asyncHandler(async (req, res)=>{
     return res.status(404).json({message : "error in upating group name!"});
   }
 
-})    
+})   
+
+//find all users by keyword
+export const allUsers = asyncHandler(async (req, res)=>{
+  
+  const {search} = req.queries;
+  console.log(req.queries);
+  const keyword = {
+    $or :[
+      {name : {$regex:search, $options:"i"}},
+      {email : {$regex:search, $options:"i"}}
+    ]
+  } 
+  const userList = await user.find(keyword); 
+
+  console.log(userList);
+  res.send(userList);
+})

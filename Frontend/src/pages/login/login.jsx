@@ -1,8 +1,13 @@
 import './login.css';
 import { useNavigate } from 'react-router-dom';
 import {useState, useEffect} from 'react';
+import { useToast } from '@chakra-ui/react'
+
 
 function Login(){
+
+  const statuses = ['success', 'error', 'warning', 'info']
+  const toast = useToast();
   const navigate = useNavigate();
 
   const [captcha, setCaptcha]=useState("");
@@ -21,20 +26,35 @@ function Login(){
 
       const data = await res.json();
       if(data.message == "success"){
-        alert("account logged in!");
+        toast({
+                title: `account logged in!`,
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+              })
+
         setTimeout(()=>{
           navigate('/home');
         }, 1500);
 
         return;
       }else{
-        alert(data.message);
+        toast({
+                title: `${data.message}`,
+                status: "warning",
+                isClosable: true,
+              })
         return;
       }
 
     }else{
 
-      alert("Wrong Captcha");
+    //  alert('wrong captcha');
+      toast({
+                title: `wrong captcha`,
+                status: "error",
+                isClosable: true,
+              })
       generateCaptcha();
 
     }

@@ -4,6 +4,7 @@ import decrypt from "../passwordManager/decryption.js"
 import sendEmail from "../mailManager/sendEmail.js"
 import SignupEmail from "../mailManager/signupEmail.js"
 import user from "../Models/userModel.js"
+import generateToken from "../config/generateToken.js"
 
 export const checkEmailExists = asyncHandler(async (req, res)=>{
   console.log("message from controllers");
@@ -31,7 +32,7 @@ export const createAccount = asyncHandler(async (req, res)=>{
 
       const hashedPassword = await encrypt(password);
       const result = await user.create({email : email, password : hashedPassword});
-      return res.status(200).json({message:"success"});
+      return res.status(200).json({message:"success", jwt : generateToken(email)});
 
     }catch(error){
       console.log(error.message);

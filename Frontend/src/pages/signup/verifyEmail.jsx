@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 import "./verifyEmail.css";
 
 function VerifyEmail() {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -118,19 +120,32 @@ function VerifyEmail() {
       const data = await result.json();
 
       if (data.message === "success") {
-        //  alert(`OTP Verified \nEntered OTP : ${otp.join("")}`);
+        toast({
+                title: `OTP Verified\nAccount Created`,
+                status: "success",
+                isClosable: true,
+              })
+        localStorage.setItem('token', data.jwt)
+        localStorage.setItem('userDetails', JSON.stringify({email:email}));
 
-        alert(`OTP Verified\nAccount Created`);
         setTimeout(() => {
           navigate("/login",{
             replace: true,
             state : null});
         }, 1000);
       } else {
-        alert("Internal server Error");
+        toast({
+                title: `Internal server Error`,
+                status: "error",
+                isClosable: true,
+              })
       }
     } else {
-      alert(`Wrong OTP. Try again`);
+      toast({
+                title: `Wrong OTP. Try again`,
+                status: "warning",
+                isClosable: true,
+              })
     }
   };
 
