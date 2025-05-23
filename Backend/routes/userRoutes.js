@@ -4,9 +4,6 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const userRoutes = express.Router();
 
-//userRoutes.post('/group/create', createGroupChat);
-//userRoutes.put('/group/rename', renameGroup);
-
 userRoutes.get('/allUsers', protect, allUsers);
 
 
