@@ -32,7 +32,7 @@ export const createAccount = asyncHandler(async (req, res)=>{
 
       const hashedPassword = await encrypt(password);
       const result = await user.create({email : email, password : hashedPassword});
-      return res.status(200).json({message:"success", jwt : generateToken(email)});
+      return res.status(200).json({message:"success", jwt : generateToken(result._id)});
 
     }catch(error){
       console.log(error.message);

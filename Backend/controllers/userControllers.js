@@ -65,17 +65,14 @@ export const renameGroup = asyncHandler(async (req, res)=>{
 
 //find all users by keyword
 export const allUsers = asyncHandler(async (req, res)=>{
-  
-  const {search} = req.queries;
-  console.log(req.queries);
+  const {search} = req.query;
   const keyword = {
     $or :[
       {name : {$regex:search, $options:"i"}},
       {email : {$regex:search, $options:"i"}}
     ]
   } 
-  const userList = await user.find(keyword); 
+  const userList = await user.find(keyword).find({_id : {$ne : req.user._id}}); 
 
-  console.log(userList);
   res.send(userList);
 })

@@ -1,5 +1,4 @@
 import express from "express"
-
 import {checkEmailExists, createAccount, login, checkEmail, verifyEmail, sendRecoveryEmail, update} from "../controllers/authControllers.js"
 
 const authRoutes = express.Router();
